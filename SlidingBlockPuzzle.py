@@ -1,0 +1,89 @@
+import sys
+import pygame
+import datetime
+import math
+import pygame.freetype
+
+pygame.init()
+
+
+def ZeroField(n):
+    return [[0] * n for i in range(n)]
+
+
+def createVerticalLine(board, x, y, length):
+    if(length < 10):
+        for i in range(length):
+            board[x][y + i] = 3
+
+
+def main():
+    width = 501
+    height = 501
+    screen = pygame.display.set_mode((width, height))
+    running = True
+    xIdx = 2
+    yIdx = 2
+    board = ZeroField(10)
+    while running:
+        pygame.display.flip()
+        screen.fill((0, 0, 0))
+        for i in range(0, 10):
+            pygame.draw.line(screen, (0, 0, 255), (i * 500/10, 0), (i * 500/10, 500))
+            pygame.draw.line(screen, (0, 0, 255), (0, i * 500/10), (500, i * 500/10))
+        pygame.draw.rect(screen, (255, 255, 255), (xIdx * 50 + 1, yIdx * 50 + 1, 49, 49))
+
+        
+        for y in range(10):
+            for x in range(10):
+                if(board[x][y] == 3):
+                    pygame.draw.rect(screen, (255, 0, 255), (x * 50 + 1, y * 50 + 1, 49, 49))
+                if(board[x][y] == 2):
+                    pygame.draw.rect(screen, (0, 255, 0), (x * 50 + 1, y * 50 + 1, 49, 49))
+                if(board[x][y] == 1):
+                    pygame.draw.rect(screen, (0, 0, 255), (x * 50 + 1, y * 50 + 1, 49, 49))
+        
+
+
+        for events in pygame.event.get():
+            if events.type == pygame.QUIT:
+                running = False
+            elif events.type == pygame.KEYDOWN:
+                if events.key == pygame.K_LEFT:
+                    xIdx -= 1
+                    if(xIdx == -1):
+                        xIdx = 0
+                elif events.key == pygame.K_RIGHT:
+                    xIdx += 1
+                    if(xIdx == 10):
+                        xIdx = 9
+                elif events.key == pygame.K_UP:
+                    yIdx -= 1
+                    if(yIdx == -1):
+                        yIdx = 0
+                elif events.key == pygame.K_DOWN:
+                    yIdx += 1
+                    if(yIdx == 10):
+                        yIdx = 9
+                elif events.key == pygame.K_d:
+                    for y in range(10):
+                        for x in range(10):
+                            if(board[x][y] == 2):
+                                pygame.draw.rect(screen, (0, 0, 0), (x * 50 + 1, y * 50 + 1, 49, 49))
+                                board[x][y] = 0
+                    board[xIdx][yIdx] = 2
+                elif events.key == pygame.K_f:
+                    for y in range(10):
+                        for x in range(10):
+                            if(board[x][y] == 1):
+                                pygame.draw.rect(screen, (0, 0, 0), (x * 50 + 1, y * 50 + 1, 49, 49))
+                                board[x][y] = 0
+                    board[xIdx][yIdx] = 1
+                elif events.key == pygame.K_s:
+                    board[xIdx][yIdx] = 3
+                elif events.key == pygame.K_a:
+                            if(board[xIdx][yIdx] == 3):
+                                pygame.draw.rect(screen, (0, 0, 0), (xIdx * 50 + 1, yIdx * 50 + 1, 49, 49))
+                                board[xIdx][yIdx] = 0
+
+main()

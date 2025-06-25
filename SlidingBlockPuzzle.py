@@ -24,6 +24,7 @@ def main():
     running = True
     xIdx = 2
     yIdx = 2
+    playmode = False
     board = ZeroField(10)
     while running:
         pygame.display.flip()
@@ -66,24 +67,33 @@ def main():
                     if(yIdx == 10):
                         yIdx = 9
                 elif events.key == pygame.K_d:
-                    for y in range(10):
-                        for x in range(10):
-                            if(board[x][y] == 2):
-                                pygame.draw.rect(screen, (0, 0, 0), (x * 50 + 1, y * 50 + 1, 49, 49))
-                                board[x][y] = 0
-                    board[xIdx][yIdx] = 2
+                    if(playmode == False):
+                        for y in range(10):
+                            for x in range(10):
+                                if(board[x][y] == 2):
+                                    pygame.draw.rect(screen, (0, 0, 0), (x * 50 + 1, y * 50 + 1, 49, 49))
+                                    board[x][y] = 0
+                        board[xIdx][yIdx] = 2
                 elif events.key == pygame.K_f:
-                    for y in range(10):
-                        for x in range(10):
-                            if(board[x][y] == 1):
-                                pygame.draw.rect(screen, (0, 0, 0), (x * 50 + 1, y * 50 + 1, 49, 49))
-                                board[x][y] = 0
-                    board[xIdx][yIdx] = 1
+                    if(playmode == False):
+                        for y in range(10):
+                            for x in range(10):
+                                if(board[x][y] == 1):
+                                    pygame.draw.rect(screen, (0, 0, 0), (x * 50 + 1, y * 50 + 1, 49, 49))
+                                    board[x][y] = 0
+                        board[xIdx][yIdx] = 1
                 elif events.key == pygame.K_s:
-                    board[xIdx][yIdx] = 3
+                     if(playmode == False):
+                        board[xIdx][yIdx] = 3
                 elif events.key == pygame.K_a:
-                            if(board[xIdx][yIdx] == 3):
-                                pygame.draw.rect(screen, (0, 0, 0), (xIdx * 50 + 1, yIdx * 50 + 1, 49, 49))
-                                board[xIdx][yIdx] = 0
+                             if(playmode == False):
+                                if(board[xIdx][yIdx] == 3):
+                                    pygame.draw.rect(screen, (0, 0, 0), (xIdx * 50 + 1, yIdx * 50 + 1, 49, 49))
+                                    board[xIdx][yIdx] = 0
+                elif events.key == pygame.K_p:
+                    if(playmode):
+                        playmode = False
+                    else:
+                        playmode = True
 
 main()
